@@ -3,6 +3,7 @@ package Exercise3;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class Main {
@@ -57,6 +58,18 @@ public class Main {
                 System.out.println("Wrong. Correct answer: " + correctCapital);
             }
             System.out.println("Your points: " + points);
+        }
+
+        //Save username and score
+        try {
+            Files.writeString(
+                Paths.get("resources/classification.txt"),
+                username + " " + points + System.lineSeparator(),
+                StandardOpenOption.CREATE, StandardOpenOption.APPEND
+            );
+            System.out.println("Score saved to classification.txt");
+        } catch (IOException e) {
+            System.out.println("Error writing classification: " + e.getMessage());
         }
     }
 }
