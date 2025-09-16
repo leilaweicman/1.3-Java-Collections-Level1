@@ -1,14 +1,12 @@
 package Exercise1;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        // Create list of months
         List<Month> months = new ArrayList<>();
         months.add(new Month("January"));
         months.add(new Month("February"));
@@ -24,6 +22,7 @@ public class Main {
 
         System.out.println("ArrayList without August: " + months);
 
+        // Insert August in the correct position
         months.add(7, new Month("August"));
         System.out.println("ArrayList in order: " + months);
 
@@ -36,5 +35,17 @@ public class Main {
         System.out.println("Added duplicate? " + added);
         System.out.println("HashSet with no duplicates: " + monthSet);
 
+        // Iterate with for-each
+        System.out.println("For-each: ");
+        for (Month month: monthSet) {
+            System.out.println(month);
+        }
+
+        // Iterate with Iterator
+        System.out.print("Iterator: ");
+        Iterator<Month> iterator = months.iterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
+        }
     }
 }
