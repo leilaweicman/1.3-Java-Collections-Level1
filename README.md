@@ -61,7 +61,7 @@ cd 1.3-Java-Collections-Level1
 
 ### Exercise 1
 
-1. Open Main.java in the Exercise1 package.
+1. Open Main.java in the exercise1 package.
 2. Run the main() method.
 3. Expected console output:
 
@@ -89,7 +89,7 @@ Iterator: January February March April May June July August September October No
 
 ### Exercise 2
 
-1. Open Main.java in the Exercise1 package.
+1. Open Main.java in the exercise1 package.
 2. Run the main() method.
 3. Expected console output:
 
@@ -101,7 +101,7 @@ Reversed list: [5, 4, 3, 2, 1]
 ### Exercise 3
 
 1. Make sure `resources/countries.txt` exists with countries and capitals.
-2. Open Main.java in the Exercise1 package.
+2. Open Main.java in the exercise1 package.
 3. Run the main() method.
 4. Expected console interaction:
 
