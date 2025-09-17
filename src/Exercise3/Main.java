@@ -8,28 +8,30 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class Main {
+
+    public static final Scanner scanner = new Scanner(System.in);
+    private static final Path COUNTRIES_PATH = Paths.get("resources/countries.txt");
+    private static final Path CLASSIFICATION_PATH = Paths.get("resources/classification.txt");
+    private static final int ROUNDS = 10;
+
     public static void main(String[] args) {
 
-        Map<String, String> countries = loadCountries(Paths.get("resources/countries.txt"));
+        Map<String, String> countries = loadCountries(COUNTRIES_PATH);
         if (countries.isEmpty()) {
             System.out.println("No countries loaded. Exiting.");
             return;
         }
 
-        System.out.println("Countries and capitals: " + countries);
-
-        Scanner scanner = new Scanner(System.in);
-        String username = promptUsername(scanner);
-        int score = playQuiz(scanner, countries);
+        String username = promptUsername();
+        int score = playQuiz(countries);
         saveScore(username, score);
-
     }
 
     private static HashMap<String, String> loadCountries(Path path) {
         HashMap<String, String> countries = new HashMap<>();
         try {
             List<String> lines = Files.readAllLines(path);
-            for (String line: lines) {
+            for (String line : lines) {
                 if (line.isBlank()) continue;
                 String[] parts = line.split(" ", 2);
                 if (parts.length == 2) {
@@ -44,7 +46,7 @@ public class Main {
         return countries;
     }
 
-    private static String promptUsername(Scanner scanner) {
+    private static String promptUsername() {
         String username = "";
         while (username.isEmpty()) {
             System.out.println("Enter your username: ");
@@ -56,12 +58,11 @@ public class Main {
         return username;
     }
 
-    private static int playQuiz(Scanner scanner, Map<String, String> countries) {
+    private static int playQuiz(Map<String, String> countries) {
         List<String> countriesList = new ArrayList<>(countries.keySet());
         Collections.shuffle(countriesList);
         int points = 0;
-        int rounds = 10;
-        for (int i = 0; i < rounds; i++) {
+        for (int i = 0; i < ROUNDS; i++) {
             String country = countriesList.get(i);
             String correctCapital = countries.get(country).replace('_', ' ');
 
@@ -82,7 +83,7 @@ public class Main {
     public static void saveScore(String username, int points) {
         try {
             Files.writeString(
-                    Paths.get("resources/classification.txt"),
+                    CLASSIFICATION_PATH,
                     username + " " + points + System.lineSeparator(),
                     StandardOpenOption.CREATE, StandardOpenOption.APPEND
             );
