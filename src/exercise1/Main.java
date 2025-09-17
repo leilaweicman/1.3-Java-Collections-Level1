@@ -6,7 +6,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Create list of months
+        List<Month> months = createMonthsList();
+        print("ArrayList without August: " + months);
+
+        insertAugustAt(months, 7);
+        print("ArrayList in order: " + months);
+
+        // Convert to HashSet
+        Set<Month> monthSet = new HashSet<>(months);
+        print("HashSet before adding a duplicate: " + monthSet);
+
+        // Try to add duplicate
+        boolean added = monthSet.add(new Month("January"));
+        print("Added duplicate? " + added);
+        print("HashSet with no duplicates: " + monthSet);
+
+        printWithForEach(monthSet);
+        printWithIterator(monthSet);
+
+    }
+
+    private static List<Month> createMonthsList() {
         List<Month> months = new ArrayList<>();
         months.add(new Month("January"));
         months.add(new Month("February"));
@@ -19,33 +39,29 @@ public class Main {
         months.add(new Month("October"));
         months.add(new Month("November"));
         months.add(new Month("December"));
+        return months;
+    }
 
-        System.out.println("ArrayList without August: " + months);
+    private static void insertAugustAt(List<Month> months, int index) {
+        months.add(index, new Month("August"));
+    }
 
-        // Insert August in the correct position
-        months.add(7, new Month("August"));
-        System.out.println("ArrayList in order: " + months);
-
-        // Convert to HashSet
-        Set<Month> monthSet = new HashSet<>(months);
-        System.out.println("HashSet before adding a duplicate: " + monthSet);
-
-        // Try to add duplicate
-        boolean added = monthSet.add(new Month("January"));
-        System.out.println("Added duplicate? " + added);
-        System.out.println("HashSet with no duplicates: " + monthSet);
-
-        // Iterate with for-each
-        System.out.println("For-each: ");
+    private static void printWithForEach(Set<Month> monthSet) {
+        print("For-each: ");
         for (Month month: monthSet) {
-            System.out.println(month);
+            print(month);
         }
+    }
 
-        // Iterate with Iterator
-        System.out.print("Iterator: ");
-        Iterator<Month> iterator = months.iterator();
+    private static void printWithIterator(Set<Month> monthSet) {
+        print("Iterator: ");
+        Iterator<Month> iterator = monthSet.iterator();
         while (iterator.hasNext()) {
-            System.out.print(iterator.next() + " ");
+            print(iterator.next() + " ");
         }
+    }
+
+    private static void print(Object msg) {
+        System.out.println(msg);
     }
 }
