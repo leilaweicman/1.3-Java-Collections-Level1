@@ -2,18 +2,35 @@ package Exercise3;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        HashMap<String, String> countries = new HashMap<>();
-        Scanner scanner = new Scanner(System.in);
 
+        Map<String, String> countries = loadCountries(Paths.get("resources/countries.txt"));
+        if (countries.isEmpty()) {
+            System.out.println("No countries loaded. Exiting.");
+            return;
+        }
+
+        System.out.println("Countries and capitals: " + countries);
+
+        Scanner scanner = new Scanner(System.in);
+        String username = promptUsername(scanner);
+        int score = playQuiz(scanner, countries);
+        saveScore(username, score);
+
+    }
+
+    private static HashMap<String, String> loadCountries(Path path) {
+        HashMap<String, String> countries = new HashMap<>();
         try {
-            List<String> lines = Files.readAllLines(Paths.get("resources/countries.txt"));
+            List<String> lines = Files.readAllLines(path);
             for (String line: lines) {
+                if (line.isBlank()) continue;
                 String[] parts = line.split(" ", 2);
                 if (parts.length == 2) {
                     String country = parts[0].trim();
@@ -24,14 +41,10 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
+        return countries;
+    }
 
-        System.out.println("Countries and capitals: " + countries);
-
-        //Create a country list and shuffle it
-        List<String> countriesList = new ArrayList<>(countries.keySet());
-        Collections.shuffle(countriesList);
-
-        //Enter username with validation
+    private static String promptUsername(Scanner scanner) {
         String username = "";
         while (username.isEmpty()) {
             System.out.println("Enter your username: ");
@@ -40,8 +53,12 @@ public class Main {
                 System.out.println("Username cannot be empty.");
             }
         }
+        return username;
+    }
 
-        //Capitals quiz with 10 rounds
+    private static int playQuiz(Scanner scanner, Map<String, String> countries) {
+        List<String> countriesList = new ArrayList<>(countries.keySet());
+        Collections.shuffle(countriesList);
         int points = 0;
         int rounds = 10;
         for (int i = 0; i < rounds; i++) {
@@ -59,13 +76,15 @@ public class Main {
             }
             System.out.println("Your points: " + points);
         }
+        return points;
+    }
 
-        //Save username and score
+    public static void saveScore(String username, int points) {
         try {
             Files.writeString(
-                Paths.get("resources/classification.txt"),
-                username + " " + points + System.lineSeparator(),
-                StandardOpenOption.CREATE, StandardOpenOption.APPEND
+                    Paths.get("resources/classification.txt"),
+                    username + " " + points + System.lineSeparator(),
+                    StandardOpenOption.CREATE, StandardOpenOption.APPEND
             );
             System.out.println("Score saved to classification.txt");
         } catch (IOException e) {
