@@ -6,22 +6,35 @@ import java.util.ListIterator;
 
 public class Main {
     public static void main(String[] args) {
-        //Create integer List
+        List<Integer> list = createList();
+
+        printList("Original list: ", list);
+
+        List<Integer> reversedList = reverseListWithIterator(list);
+
+        printList("Reversed list: ", reversedList);
+    }
+
+    private static List<Integer> createList() {
         List<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
         list.add(3);
         list.add(4);
         list.add(5);
+        return list;
+    }
 
-        System.out.println("Original list: " + list);
-
-        //Reversed integer List
+    private static List<Integer> reverseListWithIterator(List<Integer> list) {
         List<Integer> reversedList = new ArrayList<>();
         ListIterator<Integer> iterator = list.listIterator(list.size());
         while (iterator.hasPrevious()) {
             reversedList.add(iterator.previous());
         }
-        System.out.println("Reversed list: " + reversedList);
+        return reversedList;
+    }
+
+    private static void printList(String message, List<Integer> list) {
+        System.out.println(message + list);
     }
 }
